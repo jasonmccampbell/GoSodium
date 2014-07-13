@@ -4,7 +4,7 @@ import "bytes"
 import "testing"
 
 func TestRandomBytes(t *testing.T) {
-    SodiumInit()
+    Init()
 
     sizes := []int { 1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 127, 128, 129, 1023, 1024, 1025 }
     

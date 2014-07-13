@@ -1,10 +1,10 @@
 package sodium
 
-import "fmt"
+//import "fmt"
 
 
-// #cgo CFLAGS: -I../../../../../../../libsodium/include
-// #cgo LDFLAGS: /home/action/libsodium/lib/libsodium.a
+// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.6.0/include
+// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
@@ -15,7 +15,7 @@ func SecretBoxKeyBytes () int {
 }
 
 // SecretBoxNonceBytes specifies the size, in bytes, of the nonce to be used with the secret box functions.
-func SecretboxNonceBytes () int {
+func SecretBoxNonceBytes () int {
     return int(C.crypto_secretbox_noncebytes())
 }
 
@@ -25,10 +25,9 @@ func SecretBoxZeroBytes () int {
     return int(C.crypto_secretbox_zerobytes())
 }
 
-
 // SecretBoxMacBytes specifies the size, in bytes, of the MAC (Message Authentication Code) which
 // is inserted at the start of the cypher text.
-func SecretBoxZeroBytes () int {
+func SecretBoxMacBytes () int {
     return int(C.crypto_secretbox_macbytes())
 }
 
@@ -42,7 +41,7 @@ func SecretBoxZeroBytes () int {
 func SecretBox (cypherTextOut, message, nonce, key []byte) int {
     checkSize(cypherTextOut, len(message), "cypher text output");
     checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-    checkSize(key, SecretBoxPublicKeyBytes(), "key")
+    checkSize(key, SecretBoxKeyBytes(), "key")
 
     return int(C.crypto_secretbox(
         (*C.uchar)(&cypherTextOut[0]),
@@ -60,11 +59,11 @@ func SecretBox (cypherTextOut, message, nonce, key []byte) int {
 func SecretBoxOpen (messageOut, cypherText, nonce, key []byte) int {
     checkSize(messageOut, len(cypherText), "message output");
     checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-    checkSize(key, SecretBoxPublicKeyBytes(), "key")
+    checkSize(key, SecretBoxKeyBytes(), "key")
 
     return int(C.crypto_secretbox_open(
         (*C.uchar)(&messageOut[0]),
-        (*C.uchar)(&cypherText[0]),
+        (*C.uchar)(&cypherText[0]), (C.ulonglong)(len(cypherText)),
         (*C.uchar)(&nonce[0]),
         (*C.uchar)(&key[0])))
 }

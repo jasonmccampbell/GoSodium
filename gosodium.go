@@ -5,31 +5,32 @@
 // the libsodium interface.
 package gosodium
 
-import "sodium"
+import "github.com/jasonmccampbell/GoSodium/sodium"
 import "fmt"
-
-func NewKeyPair() : (pk, sk []byte) {
-    pk := make([]byte, sodium.CryptoBox_PublickKeyBytes())
-    sk := make([]byte, sodium.CryptoBox_SecretKeyBytes())
-    r := sodium.CryptoBox_KeyPair(pk, sk)
-    if r != 0 {
-        panic(fmt.Sprintf("Key pair generation failed with result %d, expected 0.", r))
-    }
-    return pk, sk
-}
 
 type PublicKey []byte
 type SecretKey []byte
 type SymmetricKey []byte
 
-func AllocPublicKey () : PublicKey {
+
+func AllocPublicKey () PublicKey {
     return make([]byte, sodium.BoxPublicKeyBytes())
 }
 
-func AllocSecretKey () : SecretKey {
+func AllocSecretKey () SecretKey {
     return make([]byte, sodium.BoxSecretKeyBytes())
 }
 
-func AllocSymmetricKey () : SymmetricKey {
+func AllocSymmetricKey () SymmetricKey {
     return make([]byte, sodium.SecretBoxKeyBytes())
+}
+
+func NewKeyPair() (PublicKey, SecretKey) {
+    pk := AllocPublicKey()
+    sk := AllocSecretKey()
+    r := sodium.BoxKeyPair(pk, sk)
+    if r != 0 {
+        panic(fmt.Sprintf("Key pair generation failed with result %d, expected 0.", r))
+    }
+    return pk, sk
 }
