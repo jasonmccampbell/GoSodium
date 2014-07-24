@@ -2,7 +2,7 @@
 # Introduction
 GoSodium is a (work-in-progress) Go language binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
 library. LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/) published by Dan Bernstein and
-company implementing the 25519 eliptic curve. These cryptogrpahic methods, and these libraries, are highly regarded as
+company implementing the 25519 elliptic curve. These cryptographic methods, and these libraries, are highly regarded as
 fast, secure, and free of governmental influences.
 
 This package is primarily for personal use as an excuse to learn Go and get more familiar with cryptography and is
@@ -16,16 +16,16 @@ a summary of the functionality in each of the LibSodium library and whether they
 
 Module             | Wrap status | Test coverage | Function
 -----------------  | ----------- | ------------- | --------------------------------
-crypto_auth        | Not wrapper | N/A           | Generates a MAC for a given message and secrey key using SHA-series hashes (key may be used across multiple messages)
+crypto_auth        | Not wrapper | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
 crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
 crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
 crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
-crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and secret key using Poly1305 algorithm (key may NOT be reused across messsages)
+crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and `t key using Poly1305 algorithm (key may NOT be reused across messages)
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a symmetric key and nonce
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
-sodium             | Partially   | Partial       | Iniiialization and utility methods
+sodium             | Partially   | Partial       | Initialization and utility methods
 
 Definitions:
 
@@ -33,21 +33,34 @@ Definitions:
 * Symmetric key: A single key which is known to both the sender and recipient(s)
 
 
-# Getting starts on Nitrous.io
+# Getting started on Nitrous.io
+One quick way to get started playing with this package is on Nitrous.io. This is one of several cloud-based IDEs that also
+provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
+to quickly bootstrap an environment with Go and LibSodium.
 
-parts install go
-parts install libsodium
-go get github.com/jasonmccampbell/GoSodium
+Once you have a machine set up:
+
+    parts install go
+    parts install libsodium
+    go get github.com/jasonmccampbell/GoSodium
 
 Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
 the remaining .go files. 
 
-# Building and testing GoSodium
+*Note:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) to the Nitrous.io parts GitHub
+repository (https://github.com/nitrous-io/autoparts/pulls). You will need to explicitly pull these branches until the
+changes have been merged.
 
+
+# Building and testing GoSodium
+Once you have a working environment, go to your Go 'src' directory and run the following commands:
 ```
 go install github.com/jasonmccampbell/GoSodium/sodium
 go test github.com/jasonmccampbell/GoSodium/sodium
 go install github.com/jasonmccampbell/GoSodium
+```
+
+If all works as expected, the tests should pass for 'sodium' and everything should be ready for use.
 
 
 
