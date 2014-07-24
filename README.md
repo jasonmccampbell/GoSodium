@@ -8,21 +8,24 @@ fast, secure, and free of governmental influences.
 This package is primarily for personal use as an excuse to learn Go and get more familiar with cryptography and is
 very much a work-in-progress. If it is useful to others, please feel free to use it at your own risk or contribute to
 it. If this is a duplicate of other work, please let me know as I am happy to contribute to other projects to avoid
-duplicatating efforts.
+redundant efforts.
 
 # Status
-
 I am (slowly) wrapping parts of the library as I have time / need so many parts are yet-unwrapped. This table provides
 a summary of the functionality in each of the LibSodium library and whether they are included.
 
 Module             | Wrap status | Test coverage | Function
 -----------------  | ----------- | ------------- | --------------------------------
-crypto_box         | Wrapped     | Partial       | Encrypts and authenticates a message using a key pair and nonce.
-crypto_onetimeauth | Not wrapped | N/A           | Signs a message using a symmetric key and nonce pair.
+crypto_auth        | Not wrapper | N/A           | Generates a MAC for a given message and secrey key using SHA-series hashes (key may be used across multiple messages)
+crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
+crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
+crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
+crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
+crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and secret key using Poly1305 algorithm (key may NOT be reused across messsages)
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a symmetric key and nonce
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
-sodium             | Partially   | Partial       | Iniiialization and utility methods.
+sodium             | Partially   | Partial       | Iniiialization and utility methods
 
 Definitions:
 
@@ -40,4 +43,11 @@ Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the p
 the remaining .go files. 
 
 # Building and testing GoSodium
+
+```
+go install github.com/jasonmccampbell/GoSodium/sodium
+go test github.com/jasonmccampbell/GoSodium/sodium
+go install github.com/jasonmccampbell/GoSodium
+
+
 

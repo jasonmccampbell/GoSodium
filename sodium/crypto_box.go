@@ -74,7 +74,7 @@ func BoxBeforeNm(keyOut []byte, pk, sk [] byte) int {
 
 
 func BoxAfterNm(cypherTextOut []byte, message []byte, nonce, key []byte) int {
-    checkSize(cypherTextOut, len(message) + BoxMacBytes(), "cypher text output");
+    checkSize(cypherTextOut, len(message), "cypher text output");
     checkSize(nonce, BoxNonceBytes(), "nonce")
     checkSize(key, BoxBeforeNmBytes(), "intermediate key")
 
@@ -85,7 +85,7 @@ func BoxAfterNm(cypherTextOut []byte, message []byte, nonce, key []byte) int {
 }
 
 func BoxOpenAfterNm(messageOut []byte, cypherText []byte, nonce, key []byte) int {
-    checkSize(messageOut, len(cypherText)-BoxMacBytes(), "message output")
+    checkSize(messageOut, len(cypherText), "message output")
     checkSize(nonce, BoxNonceBytes(), "nonce")
     checkSize(key, BoxBeforeNmBytes(), "key")
 
