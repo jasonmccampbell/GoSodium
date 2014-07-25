@@ -11,7 +11,7 @@ import "fmt"
 type PublicKey []byte
 type SecretKey []byte
 type SymmetricKey []byte
-
+type Nonce []byte
 
 func AllocPublicKey () PublicKey {
     return make([]byte, sodium.BoxPublicKeyBytes())
@@ -33,4 +33,10 @@ func NewKeyPair() (PublicKey, SecretKey) {
         panic(fmt.Sprintf("Key pair generation failed with result %d, expected 0.", r))
     }
     return pk, sk
+}
+
+func NewBoxNonce() Nonce {
+    nonce := make([]byte, sodium.BoxNonceBytes())
+    sodium.RandomBytes(nonce)
+    return nonce
 }
