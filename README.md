@@ -6,31 +6,35 @@ company implementing the 25519 elliptic curve. These cryptographic methods, and 
 fast, secure, and free of governmental influences.
 
 This package is primarily for personal use as an excuse to learn Go and get more familiar with cryptography and is
-very much a work-in-progress. If it is useful to others, please feel free to use it at your own risk or contribute to
+very much a work-in-progress. If it is useful to others, please feel free to use it, copy it, or contribute to
 it. If this is a duplicate of other work, please let me know as I am happy to contribute to other projects to avoid
 redundant efforts.
 
 # Status
 I am (slowly) wrapping parts of the library as I have time / need so many parts are yet-unwrapped. This table provides
-a summary of the functionality in each of the LibSodium library and whether they are included.
+a summary of the functionality in each module of the LibSodium library and whether they are included.
 
 Module             | Wrap status | Test coverage | Function
 -----------------  | ----------- | ------------- | --------------------------------
-crypto_auth        | Not wrapper | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
+crypto_auth        | Not wrapped | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
 crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
 crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
 crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
-crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and `t key using Poly1305 algorithm (key may NOT be reused across messages)
-crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a symmetric key and nonce
+crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
+crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
 sodium             | Partially   | Partial       | Initialization and utility methods
 
 Definitions:
 
-* Key Pair: A pair of keys comprised of the recipient's public key and the senders secret key.
-* Symmetric key: A single key which is known to both the sender and recipient(s)
+* Key Pair: A pair of keys comprised of one public key and one secret key. For example, the sender's secret key and
+  the recipient's public key, or the sender's public key and the recipient's private key.
+* Shared key: A single key which is known to both the sender and recipient(s). In LibSodium it is common to generate
+  a shared key from a key pair above. The keys have the property that the symmetric key can be generated from each
+  half of a key pair. That is, Alice's public key plus Bob's secret key can be combined to generate the same key as
+  Bob's public key and Alice's private key. 
 
 
 # Getting started on Nitrous.io
