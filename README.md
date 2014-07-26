@@ -1,6 +1,6 @@
 
 # Introduction
-GoSodium is a (work-in-progress) Go language binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
+GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
 library. LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/) published by Dan Bernstein and
 company implementing the 25519 elliptic curve. These cryptographic methods, and these libraries, are highly regarded as
 fast, secure, and free of governmental influences.
@@ -38,7 +38,7 @@ Definitions:
 
 
 # Getting started on Nitrous.io
-One quick way to get started playing with this package is on Nitrous.io. This is one of several cloud-based IDEs that also
+One quick way to get started playing with this package is on [Nitrous.io](nitrous.io). This is one of several cloud-based IDEs that also
 provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
 to quickly bootstrap an environment with Go and LibSodium.
 
@@ -66,5 +66,7 @@ go install github.com/jasonmccampbell/GoSodium
 
 If all works as expected, the tests should pass for 'sodium' and everything should be ready for use.
 
+# Contact
+Questions? Comments? Requests? Complaints? Feel free to contact me here or via [Google+](https://plus.google.com/+JasonMcCampbell/posts) or Twitter (@jasonmccampbell).
 
 
