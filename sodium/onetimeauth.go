@@ -7,6 +7,10 @@ import "unsafe"
 // #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
+//
+// crypto_onetimeauth_state *_allocOneTimeAuthState() {
+//    return (crypto_onetimeauth_state *)malloc(sizeof(crypto_onetimeauth_state));
+// }
 import "C"
 
 // Opaque structure representing the internal state of the MAC calculations.
@@ -63,9 +67,9 @@ func OneTimeAuthVerify(mac, message, key []byte) int {
 // OneTimeAuthInit initializes an internal state structure to allow incremental
 // computation of a message authentication code.
 func OneTimeAuthInit(key []byte) *OneTimeAuthState {
-    state := (C.malloc( C.size_t(unsafe.Sizeof(C.struct_onetimeauth_state{})) ))
-    C.crypto_onetimeauth_init( (*C.struct_crypto_onetimeauth_poly1305_state)(state), (*C.uchar)(&key[0]))
-    return (*OneTimeAuthState)(state)
+    state := C._allocOneTimeAuthState()
+    C.crypto_onetimeauth_init( state, (*C.uchar)(&key[0]))
+    return (*OneTimeAuthState)((unsafe.Pointer)(state))
 }
 
 

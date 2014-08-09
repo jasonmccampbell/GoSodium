@@ -21,7 +21,7 @@ crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a 
 crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
 crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
-crypto_onetimeauth | Not wrapped | N/A           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
+crypto_onetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
