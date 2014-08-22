@@ -19,7 +19,7 @@ Module             | Wrap status | Test coverage | Function
 crypto_auth        | Not wrapped | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
 crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
 crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
-crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
+crypto_generichash | Partially   | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
 crypto_onetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
