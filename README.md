@@ -22,7 +22,9 @@ crypto_core        | Not wrapped | N/A           | Core encryption algorithms us
 crypto_generichash | Partially   | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
 crypto_onetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
+crypto_scalarmult  | Partially   | N/A           | Compute the public key given a secret key previously generated with crypto_box_keypair
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
+crypto_sign        | Wrapped     | N/A           | Seals and verifies a message using a key pair
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
 sodium             | Partially   | Partial       | Initialization and utility methods
