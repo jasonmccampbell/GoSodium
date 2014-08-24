@@ -1,7 +1,7 @@
 package sodium
 
-// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.6.0/include
-// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
+// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.7.0/include
+// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.7.0/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"

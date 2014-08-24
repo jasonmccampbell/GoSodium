@@ -2,35 +2,33 @@ package sodium
 
 //import "fmt"
 
-
-// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.6.0/include
-// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
+// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.7.0/include
+// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.7.0/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
 
 // SecretBoxKeyBytes specifies the size of the symmetric key used in the secret box functions.
-func SecretBoxKeyBytes () int {
-    return int(C.crypto_secretbox_keybytes())
+func SecretBoxKeyBytes() int {
+	return int(C.crypto_secretbox_keybytes())
 }
 
 // SecretBoxNonceBytes specifies the size, in bytes, of the nonce to be used with the secret box functions.
-func SecretBoxNonceBytes () int {
-    return int(C.crypto_secretbox_noncebytes())
+func SecretBoxNonceBytes() int {
+	return int(C.crypto_secretbox_noncebytes())
 }
 
 // SecretBoxZeroBytes specifies the number of zero-byte padding which must be prsent at the start of
 // the message buffers passed to the non-easy version of the functions.
-func SecretBoxZeroBytes () int {
-    return int(C.crypto_secretbox_zerobytes())
+func SecretBoxZeroBytes() int {
+	return int(C.crypto_secretbox_zerobytes())
 }
 
 // SecretBoxMacBytes specifies the size, in bytes, of the MAC (Message Authentication Code) which
 // is inserted at the start of the cypher text.
-func SecretBoxMacBytes () int {
-    return int(C.crypto_secretbox_macbytes())
+func SecretBoxMacBytes() int {
+	return int(C.crypto_secretbox_macbytes())
 }
-
 
 // SecretBox takes a message buffer, a random nonce, and a key and writes the encrypted, authenticated
 // cypher text into the cypherTextOut buffer. The message buffer must have SecretBoxZeroBytes() worth
@@ -38,16 +36,16 @@ func SecretBoxMacBytes () int {
 // used only once for a given key. \
 //
 // Returns: 0 on success, non-zero on failure.
-func SecretBox (cypherTextOut, message, nonce, key []byte) int {
-    checkSize(cypherTextOut, len(message), "cypher text output");
-    checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-    checkSize(key, SecretBoxKeyBytes(), "key")
+func SecretBox(cypherTextOut, message, nonce, key []byte) int {
+	checkSize(cypherTextOut, len(message), "cypher text output")
+	checkSize(nonce, SecretBoxNonceBytes(), "nonce")
+	checkSize(key, SecretBoxKeyBytes(), "key")
 
-    return int(C.crypto_secretbox(
-        (*C.uchar)(&cypherTextOut[0]),
-        (*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
-        (*C.uchar)(&nonce[0]),
-        (*C.uchar)(&key[0])))
+	return int(C.crypto_secretbox(
+		(*C.uchar)(&cypherTextOut[0]),
+		(*C.uchar)(&message[0]), (C.ulonglong)(len(message)),
+		(*C.uchar)(&nonce[0]),
+		(*C.uchar)(&key[0])))
 }
 
 // SecretBoxOpen opens the authenticated cypher text produced by SecretBox and returns the original
@@ -56,14 +54,14 @@ func SecretBox (cypherTextOut, message, nonce, key []byte) int {
 // buffer and will be padded with SecretBoxZeroBytes() worth of leading zero bytes.
 //
 // Returns: 0 on success, non-zero on failure
-func SecretBoxOpen (messageOut, cypherText, nonce, key []byte) int {
-    checkSize(messageOut, len(cypherText), "message output");
-    checkSize(nonce, SecretBoxNonceBytes(), "nonce")
-    checkSize(key, SecretBoxKeyBytes(), "key")
+func SecretBoxOpen(messageOut, cypherText, nonce, key []byte) int {
+	checkSize(messageOut, len(cypherText), "message output")
+	checkSize(nonce, SecretBoxNonceBytes(), "nonce")
+	checkSize(key, SecretBoxKeyBytes(), "key")
 
-    return int(C.crypto_secretbox_open(
-        (*C.uchar)(&messageOut[0]),
-        (*C.uchar)(&cypherText[0]), (C.ulonglong)(len(cypherText)),
-        (*C.uchar)(&nonce[0]),
-        (*C.uchar)(&key[0])))
+	return int(C.crypto_secretbox_open(
+		(*C.uchar)(&messageOut[0]),
+		(*C.uchar)(&cypherText[0]), (C.ulonglong)(len(cypherText)),
+		(*C.uchar)(&nonce[0]),
+		(*C.uchar)(&key[0])))
 }
