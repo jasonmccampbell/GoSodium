@@ -1,7 +1,7 @@
 package sodium
 
-// #cgo CFLAGS: -I/usr/local/include
-// #cgo LDFLAGS: /usr/local/lib/libsodium.a
+// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.6.0/include
+// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
@@ -52,4 +52,36 @@ func SignOpen(messageOut []byte, sealedMessage []byte, pk []byte) int {
 		(*C.uchar)(&messageOut[0]), (*C.ulonglong)(&lenMessageOut),
 		(*C.uchar)(&sealedMessage[0]), (C.ulonglong)(len(sealedMessage)),
 		(*C.uchar)(&pk[0])))
+}
+
+func SignEd25519PKToCurve25519(curve25519PK []byte, ed25519PK []byte) int {
+	checkSize(curve25519PK, ScalarMultBytes(), "curve25519 public key output")
+	checkSize(ed25519PK, SignPublicKeyBytes(), "ed25519 public key")
+
+	return int(C.crypto_sign_ed25519_pk_to_curve25519(
+		(*C.uchar)(&curve25519PK[0]), (*C.uchar)(&ed25519PK[0])))
+}
+
+func SignEd25519SKToCurve25519(curve25519SK []byte, ed25519SK []byte) int {
+	checkSize(curve25519SK, ScalarMultBytes(), "curve25519 secret key output")
+	checkSize(ed25519SK, SignSecretKeyBytes(), "ed25519 secret key")
+
+	return int(C.crypto_sign_ed25519_sk_to_curve25519(
+		(*C.uchar)(&curve25519SK[0]), (*C.uchar)(&ed25519SK[0])))
+}
+
+func SignEd25519SKToSeed(seed []byte, sk []byte) int {
+	checkSize(seed, SignSeedBytes(), "seed output")
+	checkSize(sk, SignSecretKeyBytes(), "secret key")
+
+	return int(C.crypto_sign_ed25519_sk_to_seed(
+		(*C.uchar)(&seed[0]), (*C.uchar)(&sk[0])))
+}
+
+func SignEd25519SKToPK(pkOut []byte, sk []byte) int {
+	checkSize(pkOut, SignPublicKeyBytes(), "public key output")
+	checkSize(sk, SignSecretKeyBytes(), "secret key")
+
+	return int(C.crypto_sign_ed25519_sk_to_pk(
+		(*C.uchar)(&pkOut[0]), (*C.uchar)(&sk[0])))
 }
