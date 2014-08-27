@@ -40,8 +40,11 @@ func TestCryptoBox(t *testing.T) {
     messageSizes := []int { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
         17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 63, 64,
         65, 95, 96, 97, 127, 128, 129, 1023, 1024, 1025 }
-    const maxMessageSize = 1025+32      // 32 == Box_ZeroBytes constant
+    const maxMessageSize = 1025+32+4      // 32 == Box_ZeroBytes constant, 4 = seninel size
 
+    overwriteSentinel := []byte { 0x55, 0x55, 0x55, 0x55 }
+    noTouchSentinel := []byte { 0xbf, 0xbf, 0xbf, 0xbf }
+    
     msgBuf := make([]byte, maxMessageSize)
     cypherBuf := make([]byte, maxMessageSize)
     resultBuf := make([]byte, maxMessageSize)
@@ -64,12 +67,23 @@ func TestCryptoBox(t *testing.T) {
         MemZero(msg[:BoxZeroBytes()])
         RandomBytes(msg[BoxZeroBytes():]) // Leave first MacBytes() as zeros.
         RandomBytes(nonce)
-
+        
         // Basic coverage of standard box/open functions.
+        copy(ct[allocSize-4:], overwriteSentinel)
+        copy(cypherBuf[allocSize:allocSize+4], noTouchSentinel)
         r1 := Box(ct, msg, nonce, pk1, sk2)
         if r1 != 0 {
             t.Fatal("Crypto box encrypt failed, got ", r1, " expected 0")
         }
+        if !bytes.Equal(cypherBuf[allocSize:allocSize+4], noTouchSentinel) {
+            t.Fatal("Crypto box encrypt overflowed cypher text buffer")
+        }
+        if bytes.Equal(ct[allocSize-4:], overwriteSentinel) {
+            t.Fatal("Crypto box encrypt failed to fill cypher text buffer")
+        }
+        
+        copy(result[allocSize-4:], overwriteSentinel)
+        copy(resultBuf[allocSize:allocSize+4], noTouchSentinel)
         r2 := BoxOpen(result, ct, nonce, pk2, sk1)
         if r2 != 0 {
             t.Fatal("Crypto box open failed, got ", r2, " expected 0")
@@ -78,8 +92,14 @@ func TestCryptoBox(t *testing.T) {
             t.Fatalf("Byte arrays are not the same, starting bytes are %x, %x, %x, %x vs %x, %x, %x, %x",
                 result[0], result[1], result[2], result[3], msg[0], msg[1], msg[2], msg[3])
         }
+        if !bytes.Equal(resultBuf[allocSize:allocSize+4], noTouchSentinel) {
+            t.Fatal("Crypto box open overflowed result buffer.")
+        }
+        // overwriteSentinel is checked implicitly by comparison to msg.
         
         // Re-try using Before/After functions for pre-computing the shared key.
+        copy(ct[allocSize-4:], overwriteSentinel)
+        copy(cypherBuf[allocSize:allocSize+4], noTouchSentinel)
         r1 = BoxBeforeNm(key, pk1, sk2)
         if r1 != 0 {
             t.Fatal("Crypto box before nm failed, got ", r1, " expected 0")
@@ -88,6 +108,15 @@ func TestCryptoBox(t *testing.T) {
         if r1 != 0 {
             t.Fatal("Crypto box after nm failed, got ", r1, " expected 0")
         }
+        if !bytes.Equal(cypherBuf[allocSize:allocSize+4], noTouchSentinel) {
+            t.Fatal("Crypto box encrypt overflowed cypher text buffer")
+        }
+        if bytes.Equal(ct[allocSize-4:], overwriteSentinel) {
+            t.Fatal("Crypto box encrypt failed to fill cypher text buffer")
+        }
+
+        copy(result[allocSize-4:], overwriteSentinel)
+        copy(resultBuf[allocSize:allocSize+4], noTouchSentinel)
         r2 = BoxBeforeNm(key, pk2, sk1)
         if r2 != 0 {
             t.Fatal("Crypto box before nm (call 2) failed, got ", r2, " expected 0")
@@ -99,6 +128,9 @@ func TestCryptoBox(t *testing.T) {
         if !bytes.Equal(msg, result) {
             t.Fatalf("Byte arrays using before/after are not the same, starting bytes are %x, %x, %x, %x vs %x, %x, %x, %x",
                 result[0], result[1], result[2], result[3], msg[0], msg[1], msg[2], msg[3])
+        }
+        if !bytes.Equal(resultBuf[allocSize:allocSize+4], noTouchSentinel) {
+            t.Fatal("Crypto box open overflowed result buffer.")
         }
     }
     t.Log("TestBox passed")
