@@ -132,7 +132,7 @@ func BoxOpen(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
 }
 
 func BoxEasy(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
-	checkSize(cypherTextOut, len(message), "cypher text output")
+	checkSize(cypherTextOut, BoxMacBytes()+len(message), "cypher text output")
 	checkSize(nonce, BoxNonceBytes(), "nonce")
 	checkSize(pk, BoxPublicKeyBytes(), "public key")
 	checkSize(sk, BoxSecretKeyBytes(), "secret key")
@@ -145,7 +145,7 @@ func BoxEasy(cypherTextOut []byte, message []byte, nonce, pk, sk []byte) int {
 }
 
 func BoxOpenEasy(messageOut []byte, cypherText []byte, nonce, pk, sk []byte) int {
-	checkSize(messageOut, len(cypherText), "message output")
+	checkSize(messageOut, BoxMacBytes()+len(cypherText), "message output")
 	checkSize(nonce, BoxNonceBytes(), "nonce")
 	checkSize(pk, BoxPublicKeyBytes(), "public key")
 	checkSize(sk, BoxSecretKeyBytes(), "secret key")
