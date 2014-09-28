@@ -48,7 +48,7 @@ Once you have a machine set up:
 
     parts install go
     parts install libsodium
-    go get github.com/jasonmccampbell/GoSodium
+    go get github.com/neuegram/GoSodium
 
 Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
 the remaining .go files. 
@@ -61,9 +61,9 @@ changes have been merged.
 # Building and testing GoSodium
 Once you have a working environment, go to your Go 'src' directory and run the following commands:
 ```
-go install github.com/jasonmccampbell/GoSodium/sodium
-go test github.com/jasonmccampbell/GoSodium/sodium
-go install github.com/jasonmccampbell/GoSodium
+go install github.com/neuegram/GoSodium/sodium
+go test github.com/neuegram/GoSodium/sodium
+go install github.com/neuegram/GoSodium
 ```
 
 If all works as expected, the tests should pass for 'sodium' and everything should be ready for use.

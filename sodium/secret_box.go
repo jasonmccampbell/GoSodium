@@ -2,8 +2,8 @@ package sodium
 
 //import "fmt"
 
-// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.7.0/include
-// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.7.0/lib/libsodium.a
+// #cgo CFLAGS: -I/usr/local/include/sodium
+// #cgo LDFLAGS: /usr/local/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 import "C"
