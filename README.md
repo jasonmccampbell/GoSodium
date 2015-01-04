@@ -37,7 +37,19 @@ Definitions:
   Bob's public key and Alice's private key.
 
 
-# Getting started on Nitrous.io
+# Installing GoSodium
+1. Install [Go](http://golang.org/).
+2. Install [libsodium](http://libsodium.org/) from [source](https://download.libsodium.org/libsodium/releases/) or your preferred package manager.
+3. Install GoSodium: `go get github.com/jasonmccampbell/GoSodium`
+
+When compiling GoSodium, it may be necessary to pass a few environment
+variables to `go get` when building GoSodium.  For example:
+
+    env CGO_CPPFLAGS=-I/opt/local/include \
+        CGO_LDFLAGS='/opt/local/lib/libsodium.a' \
+      go get -x github.com/jasonmccampbell/GoSodium
+
+## Getting started on Nitrous.io
 One quick way to get started playing with this package is on [Nitrous.io](nitrous.io). This is one of several cloud-based IDEs that also
 provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
 to quickly bootstrap an environment with Go and LibSodium.
@@ -48,10 +60,7 @@ Once you have a machine set up:
     parts install libsodium
     go get github.com/jasonmccampbell/GoSodium
 
-Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
-the remaining .go files. 
-
-*Note:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) to the Nitrous.io parts GitHub
+*Note for Nitrous.io users:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) on Nitrous.io's GitHub
 repository (https://github.com/nitrous-io/autoparts/pulls). You will need to explicitly pull these branches until the
 changes have been merged.
 
