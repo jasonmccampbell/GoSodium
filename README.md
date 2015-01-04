@@ -1,6 +1,6 @@
-
 # Introduction
-GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
+
+GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography
 library. LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/) published by Dan Bernstein and
 company implementing the 25519 elliptic curve. These cryptographic methods, and these libraries, are highly regarded as
 fast, secure, and free of governmental influences.
@@ -34,10 +34,22 @@ Definitions:
 * Shared key: A single key which is known to both the sender and recipient(s). In LibSodium it is common to generate
   a shared key from a key pair above. The keys have the property that the symmetric key can be generated from each
   half of a key pair. That is, Alice's public key plus Bob's secret key can be combined to generate the same key as
-  Bob's public key and Alice's private key. 
+  Bob's public key and Alice's private key.
 
 
-# Getting started on Nitrous.io
+# Installing GoSodium
+1. Install [Go](http://golang.org/).
+2. Install [libsodium](http://libsodium.org/) from [source](https://download.libsodium.org/libsodium/releases/) or your preferred package manager.
+3. Install GoSodium: `go get github.com/jasonmccampbell/GoSodium`
+
+When compiling GoSodium, it may be necessary to pass a few environment
+variables to `go get` when building GoSodium.  For example:
+
+    env CGO_CPPFLAGS=-I/opt/local/include \
+        CGO_LDFLAGS='/opt/local/lib/libsodium.a' \
+      go get -x github.com/jasonmccampbell/GoSodium
+
+## Getting started on Nitrous.io
 One quick way to get started playing with this package is on [Nitrous.io](nitrous.io). This is one of several cloud-based IDEs that also
 provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
 to quickly bootstrap an environment with Go and LibSodium.
@@ -48,10 +60,7 @@ Once you have a machine set up:
     parts install libsodium
     go get github.com/jasonmccampbell/GoSodium
 
-Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
-the remaining .go files. 
-
-*Note:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) to the Nitrous.io parts GitHub
+*Note for Nitrous.io users:* The recipes for Go 1.3 and LibSodium are currently pending PRs (#161, 162) on Nitrous.io's GitHub
 repository (https://github.com/nitrous-io/autoparts/pulls). You will need to explicitly pull these branches until the
 changes have been merged.
 
@@ -68,5 +77,3 @@ If all works as expected, the tests should pass for 'sodium' and everything shou
 
 # Contact
 Questions? Comments? Requests? Complaints? Feel free to contact me here or via [Google+](https://plus.google.com/+JasonMcCampbell/posts) or Twitter (@jasonmccampbell).
-
-
