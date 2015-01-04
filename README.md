@@ -1,6 +1,6 @@
-
 # Introduction
-GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography 
+
+GoSodium is a (work-in-progress) [Go language](golang.org) binding for the [LibSodium](https://github.com/jedisct1/libsodium) cryptography
 library. LibSodium is a cross-platform port of the [NaCL library](http://nacl.cr.yp.to/) published by Dan Bernstein and
 company implementing the 25519 elliptic curve. These cryptographic methods, and these libraries, are highly regarded as
 fast, secure, and free of governmental influences.
@@ -34,7 +34,7 @@ Definitions:
 * Shared key: A single key which is known to both the sender and recipient(s). In LibSodium it is common to generate
   a shared key from a key pair above. The keys have the property that the symmetric key can be generated from each
   half of a key pair. That is, Alice's public key plus Bob's secret key can be combined to generate the same key as
-  Bob's public key and Alice's private key. 
+  Bob's public key and Alice's private key.
 
 
 # Getting started on Nitrous.io
@@ -68,5 +68,3 @@ If all works as expected, the tests should pass for 'sodium' and everything shou
 
 # Contact
 Questions? Comments? Requests? Complaints? Feel free to contact me here or via [Google+](https://plus.google.com/+JasonMcCampbell/posts) or Twitter (@jasonmccampbell).
-
-
