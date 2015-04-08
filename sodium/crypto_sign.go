@@ -27,6 +27,8 @@ func SignSeedKeyPair(pkOut []byte, skOut []byte, seed []byte) int {
 }
 
 func SignKeyPair(pkOut []byte, skOut []byte) int {
+	checkSize(pkOut, SignPublicKeyBytes(), "sign key pair public")
+	checkSize(skOut, SignSecretKeyBytes(), "sign key pair secret")
 	return int(C.crypto_sign_keypair((*C.uchar)(&pkOut[0]), (*C.uchar)(&skOut[0])))
 }
 
