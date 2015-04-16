@@ -19,10 +19,12 @@ Module             | Wrap status | Test coverage | Function
 crypto_auth        | Not wrapped | N/A           | Generates a MAC for a given message and secret key using SHA-series hashes (key may be used across multiple messages)
 crypto_box         | Wrapped     | Yes           | Encrypts and authenticates a message using a key pair and nonce
 crypto_core        | Not wrapped | N/A           | Core encryption algorithms used by other modules
-crypto_generichash | Not wrapped | N/A           | Cryptographically secure generic hash function
+crypto_generichash | Partially   | N/A           | Cryptographically secure generic hash function
 crypto_hash        | Not wrapped | N/A           | Hash function based on SHA512 algorithm
 crypto_onetimeauth | Wrapped     | Yes           | Generates a MAC for a given message and shared key using Poly1305 algorithm (key may NOT be reused across messages)
+crypto_scalarmult  | Partially   | N/A           | Compute the public key given a secret key previously generated with crypto_box_keypair
 crypto_secret_box  | Wrapped     | Partial       | Encrypts and authenticates a message using a shared key and nonce
+crypto_sign        | Wrapped     | N/A           | Seals and verifies a message using a key pair
 crypto_streaming   | Not wrapped | N/A           | Generates a randomized stream of bits to be XOR'd with a message
 randombytes        | Wrapped     | Yes           | Fills a byte array with cryptographic-quality random values
 sodium             | Partially   | Partial       | Initialization and utility methods
@@ -46,7 +48,7 @@ Once you have a machine set up:
 
     parts install go
     parts install libsodium
-    go get github.com/jasonmccampbell/GoSodium
+    go get github.com/neuegram/GoSodium
 
 Installing libsodium puts it in ~/.parts/packages/libsodium-0.6.0. This is the path that is hardcoded into
 the remaining .go files. 
@@ -59,9 +61,9 @@ changes have been merged.
 # Building and testing GoSodium
 Once you have a working environment, go to your Go 'src' directory and run the following commands:
 ```
-go install github.com/jasonmccampbell/GoSodium/sodium
-go test github.com/jasonmccampbell/GoSodium/sodium
-go install github.com/jasonmccampbell/GoSodium
+go install github.com/neuegram/GoSodium/sodium
+go test github.com/neuegram/GoSodium/sodium
+go install github.com/neuegram/GoSodium
 ```
 
 If all works as expected, the tests should pass for 'sodium' and everything should be ready for use.

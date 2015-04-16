@@ -2,8 +2,8 @@ package sodium
 
 import "unsafe"
 
-// #cgo CFLAGS: -I/home/action/.parts/packages/libsodium/0.6.0/include
-// #cgo LDFLAGS: /home/action/.parts/packages/libsodium/0.6.0/lib/libsodium.a
+// #cgo CFLAGS: -I/usr/local/include/sodium
+// #cgo LDFLAGS: /usr/local/lib/libsodium.a
 // #include <stdio.h>
 // #include <sodium.h>
 //
@@ -72,7 +72,7 @@ func OneTimeAuthInit(key []byte) OneTimeAuthState {
 // OneTimeAuthUpdate incrementally updates the MAC computation state with the contents of
 // inBuf. Update may be called multiple times while consuming a message.
 func OneTimeAuthUpdate(state OneTimeAuthState, inBuf []byte) {
-	C.crypto_onetimeauth_update((*C.struct_crypto_onetimeauth_poly1305_state)(state),
+	C.crypto_onetimeauth_update((*C.crypto_onetimeauth_state)(state),
 		(*C.uchar)(&inBuf[0]), (C.ulonglong)(len(inBuf)))
 }
 
@@ -83,7 +83,7 @@ func OneTimeAuthUpdate(state OneTimeAuthState, inBuf []byte) {
 func OneTimeAuthFinal(state OneTimeAuthState, macOut []byte) int {
 	checkSize(macOut, OneTimeAuthBytes(), "MAC output buffer")
 
-	r := int(C.crypto_onetimeauth_final((*C.struct_crypto_onetimeauth_poly1305_state)(state),
+	r := int(C.crypto_onetimeauth_final((*C.crypto_onetimeauth_state)(state),
 		(*C.uchar)(&macOut[0])))
 	C.free((unsafe.Pointer)(state))
 	return r
