@@ -38,7 +38,7 @@ Definitions:
 
 
 # Getting started on Nitrous.io
-One quick way to get started playing with this package is on [Nitrous.io](nitrous.io). This is one of several cloud-based IDEs that also
+One quick way to get started playing with this package is on [Nitrous.io](https://nitrous.io). This is one of several cloud-based IDEs that also
 provide virtual machines to get started with. The VMs seem to be decently performant and the 'parts' utility is a nice way
 to quickly bootstrap an environment with Go and LibSodium.
 
